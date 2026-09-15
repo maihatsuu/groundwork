@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "no-trample-revert-soil",
+	"version": "${version}",
+	"name": "No Trample & Revert Soil",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/no-trample-revert-soil/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.maihatsuu.notramplerevertsoil.NoTrampleRevertSoil"
+		],
+		"client": [
+			"com.maihatsuu.notramplerevertsoil.client.NoTrampleRevertSoilClient"
+		]
+	},
+	"mixins": [
+		"no-trample-revert-soil.mixins.json",
+		{
+			"config": "no-trample-revert-soil.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
