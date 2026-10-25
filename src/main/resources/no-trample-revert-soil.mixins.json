@@ -3,7 +3,7 @@
 	"package": "com.maihatsuu.notramplerevertsoil.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ExampleMixin"
+		"FarmBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

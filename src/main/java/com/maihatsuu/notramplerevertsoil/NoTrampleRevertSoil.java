@@ -1,8 +1,11 @@
 package com.maihatsuu.notramplerevertsoil;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
+import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.GameRules;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +18,17 @@ public class NoTrampleRevertSoil implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+	// When false, entities landing on farmland no longer turn it into dirt.
+	public static final GameRules.Key<GameRules.BooleanValue> DO_FARMLAND_TRAMPLE =
+			GameRuleRegistry.register("doFarmlandTrample", GameRules.Category.MISC, GameRuleFactory.createBooleanRule(true));
+
+	// When false, dry farmland with nothing planted on it no longer decays into dirt on random ticks.
+	public static final GameRules.Key<GameRules.BooleanValue> DO_FARMLAND_DECAY =
+			GameRuleRegistry.register("doFarmlandDecay", GameRules.Category.UPDATES, GameRuleFactory.createBooleanRule(true));
+
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
-
-		LOGGER.info("Hello Fabric world!");
+		SoilReversion.register();
 	}
 
 	public static ResourceLocation id(String path) {
