@@ -12,7 +12,11 @@ Right-click a dirt path while holding any shovel to turn it back into dirt. It p
 
 Right-click farmland while holding any hoe to turn it back into dirt. It plays the hoe tilling sound and uses 1 durability.
 
-Both work with any item in the `#minecraft:shovels` or `#minecraft:hoes` tag, so modded tools that use those tags are supported. They follow normal build permissions, so they don't work in spectator mode or where you can't change blocks, such as in adventure mode.
+### Turn farmland into a dirt path with a shovel
+
+Right-click farmland while holding any shovel to flatten it straight into a dirt path, without turning it back into dirt first. Like making a path from dirt or grass, the block above must be empty (so it won't work with crops planted) and it plays the shovel flatten sound and uses 1 durability.
+
+All of these work with any item in the `#minecraft:shovels` or `#minecraft:hoes` tag, so modded tools that use those tags are supported. They follow normal build permissions, so they don't work in spectator mode or where you can't change blocks, such as in adventure mode.
 
 ## Gamerules
 

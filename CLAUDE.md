@@ -4,7 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-"No Trample & Revert Soil" is a Fabric mod for Minecraft 1.21.1 (mod id `no-trample-revert-soil`, package `com.maihatsuu.notramplerevertsoil`). It is still the unmodified Fabric example-mod template: the entrypoints only log a message, `ExampleMixin` / `ExampleClientMixin` are placeholders, and `fabric.mod.json` still has the template description, authors and contact links.
+"No Trample & Revert Soil" is a Fabric mod for Minecraft 1.21.1 (mod id `no-trample-revert-soil`, package `com.maihatsuu.notramplerevertsoil`). The README documents the player-facing behaviour; keep it in sync when features or gamerules change.
+
+It has two parts, both server-side logic in `src/main`:
+
+- **Soil reversion** (`SoilReversion`, a Fabric `UseBlockCallback`): a shovel on `dirt_path` or a hoe on `farmland` turns the block back into dirt, and a shovel on `farmland` turns it into `dirt_path` (only with air above and not from the bottom face, the same conditions as vanilla path-making). Tools are matched by the `ItemTags.SHOVELS` / `ItemTags.HOES` tags, not by `instanceof`. The callback fires on both sides. The sound plays on both, with the player passed so the server doesn't send it back to them, while the block change and durability loss happen only on the server. This mirrors vanilla `ShovelItem.useOn`.
+- **Gamerules** (`doFarmlandTrample`, `doFarmlandDecay`, both default `true`): registered as static fields on `NoTrampleRevertSoil` through Fabric's `GameRuleRegistry`, and enforced in `FarmBlockMixin`. That mixin uses MixinExtras `@WrapWithCondition` on the `FarmBlock.turnToDirt` call inside `fallOn` and inside `randomTick`, so the rest of each vanilla method still runs (for example fall damage). `turnToDirt` is also called from `FarmBlock.tick`, when a solid block is placed on top; that call is deliberately left alone.
+
+The client source set has no features yet. `ExampleClientMixin` is still the template placeholder, and `fabric.mod.json` still has the template description, authors and contact links.
 
 ## Commands
 

@@ -3,6 +3,7 @@ package com.maihatsuu.notramplerevertsoil;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 /**
  * Right-clicking a dirt path with a shovel, or farmland with a hoe, turns it back into dirt.
+ * Right-clicking farmland with a shovel flattens it into a dirt path.
  */
 public final class SoilReversion {
 	private SoilReversion() {
@@ -31,13 +33,20 @@ public final class SoilReversion {
 			ItemStack stack = player.getItemInHand(hand);
 			BlockPos pos = hitResult.getBlockPos();
 			BlockState state = level.getBlockState(pos);
-			BlockState dirt = Blocks.DIRT.defaultBlockState();
-
+			BlockState target;
 			SoundEvent sound;
 			if (state.is(Blocks.DIRT_PATH) && stack.is(ItemTags.SHOVELS)) {
+				target = Blocks.DIRT.defaultBlockState();
 				sound = SoundEvents.SHOVEL_FLATTEN;
 			} else if (state.is(Blocks.FARMLAND) && stack.is(ItemTags.HOES)) {
+				target = Blocks.DIRT.defaultBlockState();
 				sound = SoundEvents.HOE_TILL;
+			} else if (state.is(Blocks.FARMLAND) && stack.is(ItemTags.SHOVELS)
+					// Same conditions as vanilla path-making in ShovelItem.useOn.
+					&& hitResult.getDirection() != Direction.DOWN
+					&& level.getBlockState(pos.above()).isAir()) {
+				target = Blocks.DIRT_PATH.defaultBlockState();
+				sound = SoundEvents.SHOVEL_FLATTEN;
 			} else {
 				return InteractionResult.PASS;
 			}
@@ -50,8 +59,8 @@ public final class SoilReversion {
 			level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
 
 			if (!level.isClientSide()) {
-				// Paths and farmland are shorter than a full block, so lift anything standing on them.
-				BlockState newState = Block.pushEntitiesUp(state, dirt, level, pos);
+				// Paths and farmland are shorter than a full block, so lift anything standing on them when they become dirt.
+				BlockState newState = Block.pushEntitiesUp(state, target, level, pos);
 				level.setBlockAndUpdate(pos, newState);
 				level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, newState));
 				stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
