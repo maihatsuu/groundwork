@@ -1,9 +1,43 @@
 # No Trample &amp; Revert Soil
 
-## Setup
+A Fabric mod for Minecraft 1.21.1 that lets you undo dirt paths and farmland, and adds gamerules to stop farmland being trampled or decaying. Requires [Fabric API](https://modrinth.com/mod/fabric-api).
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+## Features
+
+### Revert dirt paths with a shovel
+
+Right-click a dirt path while holding any shovel to turn it back into dirt. It plays the shovel flatten sound and uses 1 durability.
+
+### Revert farmland with a hoe
+
+Right-click farmland while holding any hoe to turn it back into dirt. It plays the hoe tilling sound and uses 1 durability.
+
+Both work with any item in the `#minecraft:shovels` or `#minecraft:hoes` tag, so modded tools that use those tags are supported. They follow normal build permissions, so they don't work in spectator mode or where you can't change blocks, such as in adventure mode.
+
+## Gamerules
+
+| Gamerule | Default | When set to `false` |
+| --- | --- | --- |
+| `doFarmlandTrample` | `true` | Players and mobs landing on farmland no longer trample it into dirt. Fall damage still applies. |
+| `doFarmlandDecay` | `true` | Dry farmland with nothing planted on it no longer turns back into dirt over time. It still dries out, and placing a solid block on top still turns it into dirt. |
+
+Change them in-game with commands (requires cheats or operator permission):
+
+```
+/gamerule doFarmlandTrample false
+/gamerule doFarmlandDecay false
+```
+
+Or set them on the Game Rules screen when creating a world: `doFarmlandTrample` is under **Miscellaneous** and `doFarmlandDecay` under **World Updates**.
+
+## Building
+
+```
+./gradlew build
+```
+
+The mod jar is written to `build/libs/`. Use `./gradlew runClient` to launch a development client with the mod loaded.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This mod is available under the CC0 license.
