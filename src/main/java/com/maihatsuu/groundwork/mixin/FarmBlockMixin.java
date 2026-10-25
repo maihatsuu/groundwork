@@ -1,7 +1,7 @@
-package com.maihatsuu.notramplerevertsoil.mixin;
+package com.maihatsuu.groundwork.mixin;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
-import com.maihatsuu.notramplerevertsoil.NoTrampleRevertSoil;
+import com.maihatsuu.groundwork.Groundwork;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -16,13 +16,13 @@ public class FarmBlockMixin {
 
 	// Only the turnToDirt call is skipped, so fall damage from super.fallOn still applies.
 	@WrapWithCondition(method = "fallOn", at = @At(value = "INVOKE", target = TURN_TO_DIRT))
-	private boolean noTrampleRevertSoil$checkTrampleGameRule(Entity entity, BlockState state, Level level, BlockPos pos) {
-		return level.getGameRules().getBoolean(NoTrampleRevertSoil.DO_FARMLAND_TRAMPLE);
+	private boolean groundwork$checkTrampleGameRule(Entity entity, BlockState state, Level level, BlockPos pos) {
+		return level.getGameRules().getBoolean(Groundwork.DO_FARMLAND_TRAMPLE);
 	}
 
 	// Only covers dry, unplanted farmland decaying; a solid block placed on top still turns it to dirt.
 	@WrapWithCondition(method = "randomTick", at = @At(value = "INVOKE", target = TURN_TO_DIRT))
-	private boolean noTrampleRevertSoil$checkDecayGameRule(Entity entity, BlockState state, Level level, BlockPos pos) {
-		return level.getGameRules().getBoolean(NoTrampleRevertSoil.DO_FARMLAND_DECAY);
+	private boolean groundwork$checkDecayGameRule(Entity entity, BlockState state, Level level, BlockPos pos) {
+		return level.getGameRules().getBoolean(Groundwork.DO_FARMLAND_DECAY);
 	}
 }

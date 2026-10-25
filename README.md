@@ -1,4 +1,4 @@
-# No Trample &amp; Revert Soil
+# Groundwork
 
 A Fabric mod for Minecraft 1.21.1 that lets you undo dirt paths and farmland, and adds gamerules to stop farmland being trampled or decaying. Requires [Fabric API](https://modrinth.com/mod/fabric-api).
 

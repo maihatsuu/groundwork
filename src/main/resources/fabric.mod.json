@@ -1,31 +1,31 @@
 {
 	"schemaVersion": 1,
-	"id": "no-trample-revert-soil",
+	"id": "groundwork",
 	"version": "${version}",
-	"name": "No Trample & Revert Soil",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Groundwork",
+	"description": "Revert dirt paths and farmland with shovels and hoes, and control farmland trampling and decay with gamerules.",
 	"authors": [
-		"Me!"
+		"maihatsuu"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/maihatsuu/groundwork",
+		"sources": "https://github.com/maihatsuu/groundwork"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/no-trample-revert-soil/icon.png",
+	"icon": "assets/groundwork/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.maihatsuu.notramplerevertsoil.NoTrampleRevertSoil"
+			"com.maihatsuu.groundwork.Groundwork"
 		],
 		"client": [
-			"com.maihatsuu.notramplerevertsoil.client.NoTrampleRevertSoilClient"
+			"com.maihatsuu.groundwork.client.GroundworkClient"
 		]
 	},
 	"mixins": [
-		"no-trample-revert-soil.mixins.json",
+		"groundwork.mixins.json",
 		{
-			"config": "no-trample-revert-soil.client.mixins.json",
+			"config": "groundwork.client.mixins.json",
 			"environment": "client"
 		}
 	],

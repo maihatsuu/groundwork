@@ -1,4 +1,4 @@
-package com.maihatsuu.notramplerevertsoil;
+package com.maihatsuu.groundwork;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
@@ -10,8 +10,8 @@ import net.minecraft.world.level.GameRules;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NoTrampleRevertSoil implements ModInitializer {
-	public static final String MOD_ID = "no-trample-revert-soil";
+public class Groundwork implements ModInitializer {
+	public static final String MOD_ID = "groundwork";
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.

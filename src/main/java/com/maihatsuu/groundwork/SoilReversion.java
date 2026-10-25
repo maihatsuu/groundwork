@@ -1,4 +1,4 @@
-package com.maihatsuu.notramplerevertsoil;
+package com.maihatsuu.groundwork;
 
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 

@@ -1,4 +1,4 @@
-package com.maihatsuu.notramplerevertsoil.client.mixin;
+package com.maihatsuu.groundwork.client.mixin;
 
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;

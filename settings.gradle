@@ -10,4 +10,4 @@ pluginManagement {
 }
 
 // Should match your modid
-rootProject.name = 'no-trample-revert-soil'
+rootProject.name = 'groundwork'
