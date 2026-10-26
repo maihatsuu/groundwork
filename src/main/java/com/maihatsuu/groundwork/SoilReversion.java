@@ -55,10 +55,11 @@ public final class SoilReversion {
 				return InteractionResult.PASS;
 			}
 
-			// Played on both sides; passing the player stops the server from sending it back to them.
-			level.playSound(player, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
-
+			// Everything happens on the server so players without the mod get the same result.
+			// A modded client just reports success, which swings the arm and stops the off hand being tried.
 			if (!level.isClientSide()) {
+				// No player to exclude: a client without the mod can't play the sound itself.
+				level.playSound(null, pos, sound, SoundSource.BLOCKS, 1.0F, 1.0F);
 				// Paths and farmland are shorter than a full block, so lift anything standing on them when they become dirt.
 				BlockState newState = Block.pushEntitiesUp(state, target, level, pos);
 				level.setBlockAndUpdate(pos, newState);
@@ -66,7 +67,8 @@ public final class SoilReversion {
 				stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 			}
 
-			return InteractionResult.sidedSuccess(level.isClientSide());
+			// SUCCESS rather than sidedSuccess: on the server it makes vanilla send the swing animation back to the player too.
+			return InteractionResult.SUCCESS;
 		});
 	}
 }
