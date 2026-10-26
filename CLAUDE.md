@@ -6,12 +6,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 "Groundwork" is a Fabric mod for Minecraft 1.21.1 (mod id `groundwork`, package `com.maihatsuu.groundwork`). The README documents the player-facing behaviour; keep it in sync when features or gamerules change.
 
-It has two parts, both server-side logic in `src/main`:
+It has two parts, both server-side logic:
 
 - **Soil reversion** (`SoilReversion`, a Fabric `UseBlockCallback`): a shovel on `dirt_path` or a hoe on `farmland` turns the block back into dirt, and a shovel on `farmland` turns it into `dirt_path` (only with air above and not from the bottom face, the same conditions as vanilla path-making). Tools are matched by the `ItemTags.SHOVELS` / `ItemTags.HOES` tags, not by `instanceof`. The callback fires on both sides, but the mod must work with unmodded clients, so the sound (played with a `null` player so it reaches the user too), block change and durability loss all happen only on the server. The client side just returns `SUCCESS`, which swings the arm and stops the off hand being tried. The server also returns `SUCCESS`, not `CONSUME`, so vanilla sends the swing animation back to the player. This deliberately differs from vanilla `ShovelItem.useOn`, which relies on client-side prediction.
 - **Gamerules** (`doFarmlandTrample`, `doFarmlandDecay`, both default `true`): registered as static fields on `Groundwork` through Fabric's `GameRuleRegistry`, and enforced in `FarmBlockMixin`. That mixin uses MixinExtras `@WrapWithCondition` on the `FarmBlock.turnToDirt` call inside `fallOn` and inside `randomTick`, so the rest of each vanilla method still runs (for example fall damage). `turnToDirt` is also called from `FarmBlock.tick`, when a solid block is placed on top; that call is deliberately left alone.
 
-The client source set has no features yet. `ExampleClientMixin` is still the template placeholder.
+There is no client-only code, so the project uses a single source set (`src/main`).
 
 ## Commands
 
@@ -24,8 +24,8 @@ There are no tests and no linter set up.
 ## Architecture and conventions
 
 - **Mojang official mappings** (`loom.officialMojangMappings()`), not Yarn. Use Mojang names in mixin targets and imports (for example `net.minecraft.world.level.block.FarmBlock`, `ResourceLocation`, `Minecraft`). Yarn names will not resolve.
-- **Split source sets** (`splitEnvironmentSourceSets()`): common/server code goes in `src/main`, client-only code in `src/client`. `src/main` must not reference client classes.
-- Each source set has its own mixin config: `groundwork.mixins.json` (common, `mixins` array) and `groundwork.client.mixins.json` (client, `client` array). Every new mixin class has to be listed in the matching config. Both set `injectors.defaultRequire: 1`, so an injector that matches nothing fails at load time instead of being skipped silently.
-- Entrypoints are declared in `src/main/resources/fabric.mod.json`. `Groundwork.MOD_ID`, `LOGGER` and `id(path)` (builds a namespaced `ResourceLocation`) are the shared helpers.
+- **Single source set**: all code is in `src/main` and must not reference client classes. If client-only code is ever needed, add `splitEnvironmentSourceSets()` to `build.gradle` and put it in `src/client` with its own mixin config.
+- Mixins are listed in `groundwork.mixins.json` (`mixins` array). Every new mixin class has to be listed there. It sets `injectors.defaultRequire: 1`, so an injector that matches nothing fails at load time instead of being skipped silently.
+- The only entrypoint is `main` (`Groundwork`), declared in `src/main/resources/fabric.mod.json`.
 - Versions (Minecraft, loader, Loom, Fabric API, mod version) live in `gradle.properties`. `${version}` in `fabric.mod.json` is filled in by `processResources`.
 - Java 21 target. CI builds with JDK 25.

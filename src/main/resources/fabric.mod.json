@@ -13,17 +13,10 @@
 	"entrypoints": {
 		"main": [
 			"com.maihatsuu.groundwork.Groundwork"
-		],
-		"client": [
-			"com.maihatsuu.groundwork.client.GroundworkClient"
 		]
 	},
 	"mixins": [
-		"groundwork.mixins.json",
-		{
-			"config": "groundwork.client.mixins.json",
-			"environment": "client"
-		}
+		"groundwork.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.19.5",
