@@ -7,10 +7,6 @@
 	"authors": [
 		"maihatsuu"
 	],
-	"contact": {
-		"homepage": "https://github.com/maihatsuu/groundwork",
-		"sources": "https://github.com/maihatsuu/groundwork"
-	},
 	"license": "CC0-1.0",
 	"icon": "assets/groundwork/icon.png",
 	"environment": "*",
