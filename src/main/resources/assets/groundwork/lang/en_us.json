@@ -1,0 +1,6 @@
+{
+	"gamerule.doFarmlandTrample": "Farmland tramples",
+	"gamerule.doFarmlandTrample.description": "Whether entities landing on farmland turn it into dirt.",
+	"gamerule.doFarmlandDecay": "Dry farmland decays",
+	"gamerule.doFarmlandDecay.description": "Whether dry farmland with nothing planted on it turns into dirt over time."
+}
